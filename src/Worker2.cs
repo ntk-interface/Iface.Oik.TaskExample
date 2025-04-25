@@ -7,7 +7,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace Iface.Oik.TaskExample
 {
-  // Пример обработчика задачи, по списку обновляет  
+  // Пример обработчика задачи, по списку рассчитывает и записывает значение полной мощности исходя из активной и реактивной  
   public class Worker2 : BackgroundService
   {
     private const int WorkerDelay = 1000; // период задержки выполнения задачи, в мс
@@ -70,7 +70,7 @@ namespace Iface.Oik.TaskExample
         var reactive = _reactivePowers[i].Value;
         var apparent = Math.Sqrt(Math.Pow(active, 2) + Math.Pow(reactive, 2)); // считаем по обычной формуле
 
-        var (ch, rtu, point) = _apparentPowers[i].TmAddr.GetTupleShort(); // получаем адрес канал, кп, объект
+        var (ch, rtu, point) = _apparentPowers[i].TmAddr.GetTupleShort(); // получаем адрес: канал, кп, объект
         await _api.SetAnalog(ch, rtu, point, (float)apparent);            // записываем значение
       }
     }

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace Iface.Oik.TaskExample
 {
-  // Пример обработчика задачи, делает разное с сигналами и измерениями напрямую
+  // Пример обработчика задачи, делает разное с сигналами и измерениями
   public class Worker : BackgroundService
   {
     private const int WorkerDelay = 1000; // период задержки выполнения задачи, в мс
@@ -43,10 +43,10 @@ namespace Iface.Oik.TaskExample
       // выводим в трассировку текущее время сервера
       Tms.PrintDebug(await _api.GetSystemTimeString());
 
-      // работа с ТС
+      // работа с сигналом
       // простой вариант
       var tsValue = await _api.GetStatus(20, 1, 1); // получаем значение #TC20:1:1
-      await _api.SetStatus(20, 1, 2, tsValue); // запишем его же значение в соседний #TC20:1:2
+      await _api.SetStatus(20, 1, 2, tsValue);      // запишем его же значение в соседний #TC20:1:2
 
       // углубленный вариант
       var ts = new TmStatus(20, 1, 1);                // создаем #TC20:1:1
@@ -54,7 +54,7 @@ namespace Iface.Oik.TaskExample
       await _api.UpdateStatus(ts);                    // загружаем с сервера текущее состояния ТС и флаги
       Tms.PrintDebug(ts);                             // выводим в трассировку наименование и состояние
 
-      // работа с ТИ
+      // работа с измерением
       // простой вариант
       var tiValue = await _api.GetAnalog(20, 1, 1);   // получаем значение #TT20:1:1
       await _api.SetAnalog(20, 1, 2, tiValue);        // запишем его же значение в соседний #TT20:1:2
@@ -70,7 +70,7 @@ namespace Iface.Oik.TaskExample
       {
         await _api.SetTagFlagsExplicitly(new TmStatus(20, 1, i), TmFlags.Unreliable);
       }
-      // в цикле выставим всем измерениям из списка #TT20:1:1..5 убираем признак установки вручную
+      // в цикле убираем всем измерениям из списка #TT20:1:1..5 признак установки вручную
       for (var i = 1; i <= 5; i++)
       {
         await _api.ClearTagFlagsExplicitly(new TmAnalog(20, 1, i), TmFlags.ManuallySet);

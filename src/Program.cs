@@ -49,7 +49,7 @@ namespace Iface.Oik.TaskExample
             services.AddHostedService<TmStartup>();
             services.AddSingleton<IHostedService>(provider => provider.GetService<ServerService>());
             
-            // регистрация фоновых служб задачи
+            // регистрация фоновых служб задачи TODO зарегистрировать только свои
             services.AddHostedService<Worker>();
             services.AddHostedService<Worker2>();
             services.AddHostedService<Worker3>();
